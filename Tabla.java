@@ -1,4 +1,6 @@
 import java.awt.*;
+
+import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
 
@@ -11,10 +13,11 @@ public class Tabla {
     private int n, m;
     private ArrayList<Boton> botones;
     private ArrayList<JTextField> casillas;
-    private JPanel inicio1, inicio2, inicio3;
+    private JPanel inicio1, inicio2, inicio3, juego;
 
     public Tabla() {
         botones = new ArrayList<>();
+        casillas = new ArrayList<>();
         initialize();
     }
 
@@ -67,11 +70,12 @@ public class Tabla {
                         for (int j = 0; j < m; j++) {
                             JTextField t = new JTextField(" ");
                             casillas.add(t);
-                            inicio2.add(t, i, j);
+                            inicio2.add(t);
                         }
                     }
 
                     frame.getContentPane().add(inicio2, BorderLayout.CENTER);
+
                     frame.repaint();
                     frame.validate();
 
@@ -96,32 +100,30 @@ public class Tabla {
         inicio1.add(selec);
         inicio1.setVisible(true);
 
-        JPanel juego = new JPanel();
-        GridLayout matriz = new GridLayout(n * 2 - 1, m * 2 - 1);
-        juego.setLayout(matriz);
-        juego.setVisible(false);
+        juego = new JPanel();
 
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-
-                for(int i = 0; i < n; i++){
-                    for(int j = 0; j < m; j++){
-                        
-                    }
-                }
 
                 frame.getContentPane().removeAll();
 
-                int fila = 0, col = 0;
+                juego = new JPanel();
+                GridLayout matriz = new GridLayout(n * 2 - 1, m * 2 - 1);
+                juego.setLayout(matriz);
+                frame.validate();
+                frame.repaint();
 
+                int fila = 0, col = 0, counter = 0;;
+
+                //Creo el panel con los botones del juego.
                 for (int i = 0; i < (n * 2) - 1; i++) {
                     for (int j = 0; j < (m * 2) - 1; j++) {
                         if (i % 2 == 0 && j % 2 == 0) {
-                            Boton newbutton = new Boton(new JButton(String.valueOf(radomNum())), fila, col);
+                            String valor = casillas.get(counter).getText();
+                            Boton newbutton = new Boton(new JButton(valor), fila, col);
                             botones.add(newbutton);
                             juego.add(newbutton.getBoton(), i, j);
-
+                            counter++;
                             col++;
                         } else {
                             JLabel label = new JLabel(" ");
@@ -129,9 +131,14 @@ public class Tabla {
                         }
                     }
                     col = 0;
+                    if(i%2 != 0){
+                        fila++;
+                    }
                 }
 
                 frame.getContentPane().add(BorderLayout.CENTER, juego);
+                frame.validate();
+                frame.repaint();
                 frame.setVisible(true);
             }
         });
