@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
+
 import java.awt.event.*;
 import java.lang.annotation.IncompleteAnnotationException;
 import java.util.*;
@@ -44,25 +46,18 @@ public class Tabla {
                 setFilas(Integer.parseInt(numfilas.getText()));
                 setColumns(Integer.parseInt(numcol.getText()));
 
-                GridLayout combos = new GridLayout(n,m);
-                inicio2.setLayout(combos);
+                GridLayout datos = new GridLayout(n,m);
+                inicio2.setLayout(datos);
 
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < m; j++) {
-                        JComboBox opciones = new JComboBox<Integer>();
-                        opciones.add(1);
-                        opciones.add(2);
-                        opciones.add(3);
-                        opciones.add(4);
-                        opciones.add(5);
-                        opciones.add(6);
-                        opciones.add(7);
-                        opciones.add(8);
-                        opciones.add(9);
-
-                        combos.add(opciones);
+                        JTextField t = new JTextField(" ");
+                        inicio1.add(t);
                     }
                 }
+
+                inicio2.setVisible(true);
+                
             }
         });
 
