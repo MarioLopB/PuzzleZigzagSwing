@@ -122,12 +122,12 @@ public class Tabla {
                             String valor = casillas.get(counter).getText();
                             Boton newbutton = new Boton(new JButton(valor), fila, col);
                             botones.add(newbutton);
-                            juego.add(newbutton.getBoton(), i, j);
+                            juego.add(newbutton.getBoton());
                             counter++;
                             col++;
                         } else {
                             JLabel label = new JLabel(" ");
-                            juego.add(label, i, j);
+                            juego.add(label);
                         }
                     }
                     col = 0;

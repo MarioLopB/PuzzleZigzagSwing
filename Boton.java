@@ -1,6 +1,9 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class Boton {
+    
     private JButton boton;
     private int fila, col;
 
@@ -8,6 +11,12 @@ public class Boton {
         this.boton = boton;
         this.fila = fila;
         this.col = col;
+
+        boton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                boton.setEnabled(false);
+            }
+        });
     }
 
     public JButton getBoton(){
@@ -21,4 +30,5 @@ public class Boton {
     public int getCol(){
         return col;
     }
+    
 }
