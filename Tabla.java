@@ -24,7 +24,8 @@ public class Tabla {
         frame.setSize(700, 700);
 
         JPanel inicio1 = new JPanel();
-        JPanel inicio2 = new JPanel();
+
+        JPanel inicio2 =new JPanel();
 
         FlowLayout linea = new FlowLayout();
 
@@ -43,6 +44,10 @@ public class Tabla {
         JButton selec = new JButton("Seleccionar");
         selec.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().remove(inicio2);
+
+                JPanel inicio2 = new JPanel();
+
                 setFilas(Integer.parseInt(numfilas.getText()));
                 setColumns(Integer.parseInt(numcol.getText()));
 
@@ -56,8 +61,11 @@ public class Tabla {
                     }
                 }
 
-                inicio2.setVisible(true);
+                inicio2.repaint();
+                inicio2.validate();
                 
+
+                frame.getContentPane().add(BorderLayout.CENTER, inicio2);                
             }
         });
 
