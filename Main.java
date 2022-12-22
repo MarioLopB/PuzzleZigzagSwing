@@ -4,6 +4,15 @@ import java.awt.event.*;
 
 public class Main {
     public static void main(String[] args){
-        Tabla tabla = new Tabla(4, 4);
+        EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Tabla window = new Tabla(4,4);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
 }
