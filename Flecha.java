@@ -13,4 +13,12 @@ public class Flecha {
     public JLabel getFlecha(){
         return flecha;
     }
+
+    public int getFila(){
+        return fila;
+    }
+
+    public int getCol(){
+        return col;
+    }
 }

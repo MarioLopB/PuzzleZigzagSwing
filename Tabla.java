@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Tabla {
     public JFrame frame;
-    private int n, m, max, min;
+    private int n, m;
     private ArrayList<Boton> botones;
     private ArrayList<JTextField> casillas;
     private ArrayList<Flecha> flechas;
@@ -299,9 +299,10 @@ public class Tabla {
      * Establece el número maximo de la tabla.
      */
     public int Max() {
+        int max = 0;
         for (int i = 0; i < botones.size(); i++) {
-            if (botones.get(i).getNum() > this.max) {
-                this.max = botones.get(i).getNum();
+            if (botones.get(i).getNum() > max) {
+                max = botones.get(i).getNum();
             }
         }
 
@@ -312,10 +313,10 @@ public class Tabla {
      * Establece el número máximo de la tabla.
      */
     public int Min() {
-        this.min = botones.get(0).getNum();
+        int min = botones.get(0).getNum();
         for (int i = 0; i < botones.size(); i++) {
-            if (botones.get(i).getNum() < this.min) {
-                this.min = botones.get(i).getNum();
+            if (botones.get(i).getNum() < min) {
+                min = botones.get(i).getNum();
             }
         }
 

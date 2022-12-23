@@ -32,63 +32,71 @@ public class Resolver {
             }
 
             if (current.getNum() == num && current.getNum() != previous.getNum()) {
-                if (current.getFila() - 1 == previous.getFila() && current.getCol() - 1 == previous.getCol()) {
+                if (current.getFila() - 2 == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
                     // Diagonal Arriba Izquierda
-                    if (search(botones, current.getFila(), current.getCol() - 1).getVisited() != 3
-                            && search(botones, current.getFila() - 1, current.getCol()).getVisited() != 6) {
+                    if (searchBoton(botones, current.getFila(), current.getCol() - 2).getVisited() != 3
+                            && searchBoton(botones, current.getFila() - 2, current.getCol()).getVisited() != 6) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
+                        searchFlecha(flechas, current.getFila()-1, current.getCol()-1).getFlecha().setText("\\");;
                     } else{
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
-                } else if (current.getFila() - 1 == previous.getFila() && current.getCol() == previous.getCol()) {
+                } else if (current.getFila() - 2 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Arriba
                     current.getBoton().setEnabled(false);
                     current.setVisited(2);
                     solucion.add(current);
-                } else if (current.getFila() - 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
+                    searchFlecha(flechas, current.getFila()-1, current.getCol()).getFlecha().setText("|");;
+                } else if (current.getFila() - 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Diagonal Arriba Derecha
-                    if (search(botones, current.getFila(), current.getCol() + 1).getVisited() != 1
-                            && search(botones, current.getFila() - 1, current.getCol()).getVisited() != 8) {
+                    if (searchBoton(botones, current.getFila(), current.getCol() + 2).getVisited() != 1
+                            && searchBoton(botones, current.getFila() - 2, current.getCol()).getVisited() != 8) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
                         solucion.add(current);
+                        searchFlecha(flechas, current.getFila()-1, current.getCol()+1).getFlecha().setText("/");;
                     } else{
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
-                } else if (current.getFila() == previous.getFila() && current.getCol() == previous.getCol() + 1) {
+                } else if (current.getFila() == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
                     // Izquierda
                     current.getBoton().setEnabled(false);
                     current.setVisited(4);
                     solucion.add(current);
-                } else if (current.getFila() == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
+                    searchFlecha(flechas, current.getFila(), current.getCol()-1).getFlecha().setText("-");;
+                } else if (current.getFila() == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Derecha
                     current.getBoton().setEnabled(false);
                     current.setVisited(5);
                     solucion.add(current);
-                } else if (current.getFila() + 1 == previous.getFila() && current.getCol() - 1 == previous.getCol()) {
+                    searchFlecha(flechas, current.getFila(), current.getCol()+1).getFlecha().setText("-");;
+                } else if (current.getFila() + 2 == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
                     // Diagonal Abajo Izquierda
-                    if (search(botones, current.getFila(), current.getCol() - 1).getVisited() != 8
-                            && search(botones, current.getFila() + 1, current.getCol()).getVisited() != 1) {
+                    if (searchBoton(botones, current.getFila(), current.getCol() - 2).getVisited() != 8
+                            && searchBoton(botones, current.getFila() + 2, current.getCol()).getVisited() != 2) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
                         solucion.add(current);
+                        searchFlecha(flechas, current.getFila()+1, current.getCol()-1).getFlecha().setText("/");;
                     } else{
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
-                } else if (current.getFila() + 1 == previous.getFila() && current.getCol() == previous.getCol()) {
+                } else if (current.getFila() + 2 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Abajo
                     current.getBoton().setEnabled(false);
                     current.setVisited(7);
                     solucion.add(current);
-                } else if (current.getFila() + 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
+                    searchFlecha(flechas, current.getFila()+1, current.getCol()).getFlecha().setText("|");;
+                } else if (current.getFila() + 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Diagonal Abajo Derecha
-                    if (search(botones, current.getFila(), current.getCol() + 1).getVisited() != 6
-                            && search(botones, current.getFila() + 1, current.getCol()).getVisited() != 3) {
+                    if (searchBoton(botones, current.getFila(), current.getCol() + 2).getVisited() != 6
+                            && searchBoton(botones, current.getFila() + 2, current.getCol()).getVisited() != 3) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
                         solucion.add(current);
+                        searchFlecha(flechas, current.getFila()+1, current.getCol()+1).getFlecha().setText("\\");;
                     } else{
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
@@ -119,7 +127,17 @@ public class Resolver {
      * @param col
      * @return
      */
-    public Boton search(ArrayList<Boton> list, int fila, int col) {
+    public Boton searchBoton(ArrayList<Boton> list, int fila, int col) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getFila() == fila && list.get(i).getCol() == col) {
+                return list.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    public Flecha searchFlecha(ArrayList<Flecha> list, int fila, int col) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getFila() == fila && list.get(i).getCol() == col) {
                 return list.get(i);
