@@ -18,6 +18,7 @@ public class Tabla {
     private int n, m, max, min;
     private ArrayList<Boton> botones;
     private ArrayList<JTextField> casillas;
+    private ArrayList<Flecha> flechas;
     private JPanel inicio1, inicio2, inicio3, juego;
     private JMenuBar menubar;
     private JMenu menu1;
@@ -25,8 +26,10 @@ public class Tabla {
     private Resolver partida;
 
     public Tabla() {
-        botones = new ArrayList<>();
-        casillas = new ArrayList<>();
+        botones = new ArrayList<Boton>();
+        casillas = new ArrayList<JTextField>();
+        flechas = new ArrayList<Flecha>();
+
         initialize();
     }
 
@@ -194,15 +197,15 @@ public class Tabla {
             for (int i = 0; i < (n * 2) - 1; i++) {
                 for (int j = 0; j < (m * 2) - 1; j++) {
                     if (i % 2 == 0 && j % 2 == 0) {
-                        Boton newbutton = new Boton(new JButton(valores[fila][col]), fila, col);
-                        newbutton.setIntento(intento);
+                        Boton newbutton = new Boton(new JButton(valores[fila][col]), i, j, intento, true);
                         botones.add(newbutton);
                         juego.add(newbutton.getBoton());
                         counter++;
                         col++;
                     } else {
-                        JLabel label = new JLabel(" ");
-                        juego.add(label);
+                        Flecha flecha = new Flecha(i, j);
+                        flechas.add(flecha);
+                        juego.add(flecha.getFlecha());
                     }
                 }
                 col = 0;
@@ -212,6 +215,7 @@ public class Tabla {
             }
 
             intento.setBotones(botones);
+            intento.setFlechas(flechas);
             intento.setMax(Max());
             intento.setMin(Min());
 

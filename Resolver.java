@@ -9,6 +9,7 @@ import java.util.*;
 public class Resolver {
     private ArrayList<Boton> solucion = new ArrayList<>();
     private ArrayList<Boton> botones;
+    private ArrayList<Flecha> flechas;
     private int min, max;
 
     public void resuelve(Boton current) {
@@ -38,6 +39,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() - 1 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Arriba
@@ -51,6 +54,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
                         solucion.add(current);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() == previous.getFila() && current.getCol() == previous.getCol() + 1) {
                     // Izquierda
@@ -69,6 +74,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
                         solucion.add(current);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Abajo
@@ -82,8 +89,15 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
                         solucion.add(current);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Casilla demasiado lejena");
+
                 }
+            } else{
+                JOptionPane.showMessageDialog(null, "Valor incorrecto");
             }
 
         }
@@ -117,5 +131,9 @@ public class Resolver {
 
     public void setBotones(ArrayList<Boton> botones){
         this.botones = botones;
+    }
+
+    public void setFlechas(ArrayList<Flecha> flechas){
+        this.flechas = flechas;
     }
 }
