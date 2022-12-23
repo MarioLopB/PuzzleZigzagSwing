@@ -6,6 +6,7 @@ public class Boton {
     
     private JButton boton;
     private int fila, col;
+    private Resolver intento = new Resolver();
 
     public Boton(JButton boton, int fila, int col){
         this.boton = boton;
@@ -14,7 +15,7 @@ public class Boton {
 
         boton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                boton.setEnabled(false);
+                intento.resuelve(new Boton(boton, fila, col));
             }
         });
     }

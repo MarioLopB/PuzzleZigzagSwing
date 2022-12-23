@@ -1,5 +1,10 @@
 import java.awt.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
@@ -14,6 +19,10 @@ public class Tabla {
     private ArrayList<Boton> botones;
     private ArrayList<JTextField> casillas;
     private JPanel inicio1, inicio2, inicio3, juego;
+    private JMenuBar menubar;
+    private JMenu menu1;
+    private JMenuItem item1, item2, item3;
+    private Resolver partida;
 
     public Tabla() {
         botones = new ArrayList<>();
@@ -25,6 +34,25 @@ public class Tabla {
         frame = new JFrame("Tabla");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 700);
+
+        menubar = new JMenuBar();
+        frame.setJMenuBar(menubar);
+
+        menu1 = new JMenu("Opciones");
+        menubar.add(menu1);
+
+        item1 = new JMenuItem("Cargar fichero");
+        menu1.add(item1);
+        item2 = new JMenuItem("Deshacer");
+        menu1.add(item2);
+        item3 = new JMenuItem("Ayuda");
+        menu1.add(item3);
+
+        item1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cargarFichero();
+            }
+        });
 
         inicio1 = new JPanel();
 
@@ -104,42 +132,7 @@ public class Tabla {
 
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                frame.getContentPane().removeAll();
-
-                juego = new JPanel();
-                GridLayout matriz = new GridLayout(n * 2 - 1, m * 2 - 1);
-                juego.setLayout(matriz);
-                frame.validate();
-                frame.repaint();
-
-                int fila = 0, col = 0, counter = 0;;
-
-                //Creo el panel con los botones del juego.
-                for (int i = 0; i < (n * 2) - 1; i++) {
-                    for (int j = 0; j < (m * 2) - 1; j++) {
-                        if (i % 2 == 0 && j % 2 == 0) {
-                            String valor = casillas.get(counter).getText();
-                            Boton newbutton = new Boton(new JButton(valor), fila, col);
-                            botones.add(newbutton);
-                            juego.add(newbutton.getBoton());
-                            counter++;
-                            col++;
-                        } else {
-                            JLabel label = new JLabel(" ");
-                            juego.add(label);
-                        }
-                    }
-                    col = 0;
-                    if(i%2 != 0){
-                        fila++;
-                    }
-                }
-
-                frame.getContentPane().add(BorderLayout.CENTER, juego);
-                frame.validate();
-                frame.repaint();
-                frame.setVisible(true);
+                ventanaJuego();
             }
         });
 
@@ -155,5 +148,141 @@ public class Tabla {
 
     public void setColumns(int col) {
         this.m = col;
+    }
+
+    public void ventanaJuego() {
+        String[][] valores = new String[n][m];
+        int counter = 0;
+        boolean ok = true;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                StringTokenizer t = new StringTokenizer(casillas.get(counter).getText());
+                String valor = "";
+
+                while (t.hasMoreTokens()) {
+                    valor = t.nextToken();
+                }
+
+                if (Integer.parseInt(valor) < 9 && Integer.parseInt(valor) > 0
+                        && valor != "") {
+                    valores[i][j] = casillas.get(counter).getText();
+                    counter++;
+                    ok = true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Números deben ser menores que 9 y mayores que 0.");
+                    ok = false;
+                    break;
+                }
+            }
+        }
+
+        if (ok) {
+            frame.getContentPane().removeAll();
+
+            juego = new JPanel();
+            GridLayout matriz = new GridLayout(n * 2 - 1, m * 2 - 1);
+            juego.setLayout(matriz);
+            frame.validate();
+            frame.repaint();
+
+            int fila = 0, col = 0;
+
+            // Creo el panel con los botones del juego.
+            for (int i = 0; i < (n * 2) - 1; i++) {
+                for (int j = 0; j < (m * 2) - 1; j++) {
+                    if (i % 2 == 0 && j % 2 == 0) {
+                        Boton newbutton = new Boton(new JButton(valores[fila][col]), fila, col);
+                        botones.add(newbutton);
+                        juego.add(newbutton.getBoton());
+                        counter++;
+                        col++;
+                    } else {
+                        JLabel label = new JLabel(" ");
+                        juego.add(label);
+                    }
+                }
+                col = 0;
+                if (i % 2 != 0) {
+                    fila++;
+                }
+            }
+
+            frame.getContentPane().add(BorderLayout.CENTER, juego);
+            frame.validate();
+            frame.repaint();
+            frame.setVisible(true);
+        }
+    }
+
+    public void cargarFichero() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        fileChooser.setCurrentDirectory(new File("."));
+
+        int respuesta = fileChooser.showOpenDialog(null);// seleciona archivo
+
+        if (respuesta == JFileChooser.APPROVE_OPTION) {
+            File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+
+            try (Scanner sc = new Scanner(file)) {
+                String line;
+                StringTokenizer data;
+                int min = 0;
+                int max = 0;
+                boolean inputok = true;
+
+                ArrayList<String> col;
+                ArrayList<ArrayList<String>> row = new ArrayList<>();
+
+                while (sc.hasNextLine()) {
+                    line = sc.nextLine();
+                    data = new StringTokenizer(line);
+                    col = new ArrayList<>();
+
+                    int space = 0;
+                    for (int i = 0; i < line.length() && inputok; i++) {
+                        if (line.charAt(i) == ' ') {
+                            if (i == 0 || i == line.length() - 1) {
+                                inputok = false;
+                            }
+                            space++;
+                        } else if (space == 1) {
+                            space = 0;
+                        } else if (space == 2) {
+                            inputok = false;
+                        }
+                    }
+
+                    while (data.hasMoreTokens()) {
+                        int num = Integer.parseInt(data.nextToken());
+
+                        col.add(String.valueOf(num));
+                    }
+                    m = col.size();
+                    row.add(col);
+                }
+
+                n = row.size();
+
+                if(inputok){
+                    for (int i = 0; i < n; i++) {
+                        for (int j = 0; j < m; j++) {
+                            JTextField t = new JTextField(row.get(i).get(j));
+                            casillas.add(t);
+                        }
+                    }
+    
+                    ventanaJuego();
+                } else{
+                    JOptionPane.showMessageDialog(null, "Información incorrecta.");
+                }
+                
+
+            } catch (NumberFormatException | FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                JOptionPane.showMessageDialog(null, "No ha fichero");
+            }
+        }
     }
 }
