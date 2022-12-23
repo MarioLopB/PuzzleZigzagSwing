@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
+import javax.xml.validation.Validator;
 
 import java.awt.event.*;
 import java.lang.annotation.IncompleteAnnotationException;
@@ -99,7 +100,7 @@ public class Tabla {
 
                     for (int i = 0; i < n; i++) {
                         for (int j = 0; j < m; j++) {
-                            JTextField t = new JTextField(" ");
+                            JTextField t = new JTextField("");
                             casillas.add(t);
                             inicio2.add(t);
                         }
@@ -135,7 +136,17 @@ public class Tabla {
 
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ventanaJuego();
+                try{
+                    final SwingWorker evento = new SwingWorker(){
+                        @Override
+                        protected Object doInBackground() throws Exception{
+                            ventanaJuego();
+                            return null;
+                        }
+                    };
+
+                    evento.execute();;
+                } catch(Exception err){};
             }
         });
 

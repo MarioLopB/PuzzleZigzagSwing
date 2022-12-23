@@ -38,14 +38,7 @@ public class Boton {
     }
 
     public int getNum(){
-        int num = 0;
-        try{
-            num = Integer.parseInt(boton.getText());
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Mal");
-        }
-
-        return num;
+        return Integer.parseInt(boton.getText());
     }
 
     public int getVisited(){
