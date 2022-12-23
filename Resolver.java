@@ -35,43 +35,51 @@ public class Resolver {
                             && search(solucion, current.getFila() - 1, current.getCol()).getVisited() != 6) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
+                        solucion.add(current);
                     }
                 } else if (current.getFila() - 1 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Arriba
                     current.getBoton().setEnabled(false);
                     current.setVisited(2);
+                    solucion.add(current);
                 } else if (current.getFila() - 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
                     // Diagonal Arriba Derecha
                     if (search(solucion, current.getFila(), current.getCol() + 1).getVisited() != 1
                             && search(solucion, current.getFila() - 1, current.getCol()).getVisited() != 8) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
+                        solucion.add(current);
                     }
                 } else if (current.getFila() == previous.getFila() && current.getCol() == previous.getCol() + 1) {
                     // Izquierda
                     current.getBoton().setEnabled(false);
                     current.setVisited(4);
+                    solucion.add(current);
                 } else if (current.getFila() == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
                     // Derecha
                     current.getBoton().setEnabled(false);
                     current.setVisited(5);
+                    solucion.add(current);
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() - 1 == previous.getCol()) {
                     // Diagonal Abajo Izquierda
                     if (search(solucion, current.getFila(), current.getCol() - 1).getVisited() != 8
                             && search(solucion, current.getFila() + 1, current.getCol()).getVisited() != 1) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
+                        solucion.add(current);
                     }
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() == previous.getCol()) {
                     // Abajo
                     current.getBoton().setEnabled(false);
                     current.setVisited(7);
+                    solucion.add(current);
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
                     // Diagonal Abajo Derecha
                     if (search(solucion, current.getFila(), current.getCol() + 1).getVisited() != 6
                             && search(solucion, current.getFila() + 1, current.getCol()).getVisited() != 3) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
+                        solucion.add(current);
                     }
                 }
             }
