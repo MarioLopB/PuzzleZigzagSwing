@@ -234,12 +234,10 @@ public class Tabla {
             try (Scanner sc = new Scanner(file)) {
                 String line;
                 StringTokenizer data;
-                int min = 0;
-                int max = 0;
                 boolean inputok = true;
 
-                ArrayList<String> col;
-                ArrayList<ArrayList<String>> row = new ArrayList<>();
+                ArrayList<String> col = new ArrayList<String>();
+                ArrayList<ArrayList<String>> row = new ArrayList<ArrayList<String>>();
 
                 while (sc.hasNextLine()) {
                     line = sc.nextLine();
