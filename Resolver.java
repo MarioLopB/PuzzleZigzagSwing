@@ -3,10 +3,12 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Resolver {
     private ArrayList<Boton> solucion = new ArrayList<>();
+    private ArrayList<Boton> botones;
     private int min, max;
 
     public void resuelve(Boton current) {
@@ -31,8 +33,8 @@ public class Resolver {
             if (current.getNum() == num && current.getNum() != previous.getNum()) {
                 if (current.getFila() - 1 == previous.getFila() && current.getCol() - 1 == previous.getCol()) {
                     // Diagonal Arriba Izquierda
-                    if (search(solucion, current.getFila(), current.getCol() - 1).getVisited() != 3
-                            && search(solucion, current.getFila() - 1, current.getCol()).getVisited() != 6) {
+                    if (search(botones, current.getFila(), current.getCol() - 1).getVisited() != 3
+                            && search(botones, current.getFila() - 1, current.getCol()).getVisited() != 6) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
@@ -44,8 +46,8 @@ public class Resolver {
                     solucion.add(current);
                 } else if (current.getFila() - 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
                     // Diagonal Arriba Derecha
-                    if (search(solucion, current.getFila(), current.getCol() + 1).getVisited() != 1
-                            && search(solucion, current.getFila() - 1, current.getCol()).getVisited() != 8) {
+                    if (search(botones, current.getFila(), current.getCol() + 1).getVisited() != 1
+                            && search(botones, current.getFila() - 1, current.getCol()).getVisited() != 8) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
                         solucion.add(current);
@@ -62,8 +64,8 @@ public class Resolver {
                     solucion.add(current);
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() - 1 == previous.getCol()) {
                     // Diagonal Abajo Izquierda
-                    if (search(solucion, current.getFila(), current.getCol() - 1).getVisited() != 8
-                            && search(solucion, current.getFila() + 1, current.getCol()).getVisited() != 1) {
+                    if (search(botones, current.getFila(), current.getCol() - 1).getVisited() != 8
+                            && search(botones, current.getFila() + 1, current.getCol()).getVisited() != 1) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
                         solucion.add(current);
@@ -75,8 +77,8 @@ public class Resolver {
                     solucion.add(current);
                 } else if (current.getFila() + 1 == previous.getFila() && current.getCol() + 1 == previous.getCol()) {
                     // Diagonal Abajo Derecha
-                    if (search(solucion, current.getFila(), current.getCol() + 1).getVisited() != 6
-                            && search(solucion, current.getFila() + 1, current.getCol()).getVisited() != 3) {
+                    if (search(botones, current.getFila(), current.getCol() + 1).getVisited() != 6
+                            && search(botones, current.getFila() + 1, current.getCol()).getVisited() != 3) {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
                         solucion.add(current);
@@ -111,5 +113,9 @@ public class Resolver {
         }
 
         return null;
+    }
+
+    public void setBotones(ArrayList<Boton> botones){
+        this.botones = botones;
     }
 }

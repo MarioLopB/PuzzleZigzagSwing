@@ -211,6 +211,7 @@ public class Tabla {
                 }
             }
 
+            intento.setBotones(botones);
             intento.setMax(Max());
             intento.setMin(Min());
 
