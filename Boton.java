@@ -5,8 +5,8 @@ import java.awt.event.*;
 public class Boton {
     
     private JButton boton;
-    private int fila, col;
-    private Resolver intento = new Resolver();
+    private int fila, col, visited;
+    private Resolver intento;
 
     public Boton(JButton boton, int fila, int col){
         this.boton = boton;
@@ -30,6 +30,22 @@ public class Boton {
 
     public int getCol(){
         return col;
+    }
+
+    public int getNum(){
+        return Integer.parseInt(boton.getText());
+    }
+
+    public int getVisited(){
+        return visited;
+    }
+
+    public void setVisited(int visited){
+        this.visited = visited;
+    }
+
+    public void setIntento(Resolver intento){
+        this.intento = intento;
     }
     
 }

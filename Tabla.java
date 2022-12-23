@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Tabla {
     public JFrame frame;
-    private int n, m;
+    private int n, m, max, min;
     private ArrayList<Boton> botones;
     private ArrayList<JTextField> casillas;
     private JPanel inicio1, inicio2, inicio3, juego;
@@ -186,6 +186,8 @@ public class Tabla {
             frame.validate();
             frame.repaint();
 
+            Resolver intento = new Resolver();
+
             int fila = 0, col = 0;
 
             // Creo el panel con los botones del juego.
@@ -193,6 +195,7 @@ public class Tabla {
                 for (int j = 0; j < (m * 2) - 1; j++) {
                     if (i % 2 == 0 && j % 2 == 0) {
                         Boton newbutton = new Boton(new JButton(valores[fila][col]), fila, col);
+                        newbutton.setIntento(intento);
                         botones.add(newbutton);
                         juego.add(newbutton.getBoton());
                         counter++;
@@ -207,6 +210,9 @@ public class Tabla {
                     fila++;
                 }
             }
+
+            intento.setMax(Max());
+            intento.setMin(Min());
 
             frame.getContentPane().add(BorderLayout.CENTER, juego);
             frame.validate();
@@ -284,5 +290,32 @@ public class Tabla {
                 JOptionPane.showMessageDialog(null, "No ha fichero");
             }
         }
+    }
+
+    /**
+     * Establece el número maximo de la tabla.
+     */
+    public int Max() {
+        for (int i = 0; i < botones.size(); i++) {
+            if (botones.get(i).getNum() > this.max) {
+                this.max = botones.get(i).getNum();
+            }
+        }
+
+        return max;
+    }
+
+    /**
+     * Establece el número máximo de la tabla.
+     */
+    public int Min() {
+        this.min = botones.get(0).getNum();
+        for (int i = 0; i < botones.size(); i++) {
+            if (botones.get(i).getNum() < this.min) {
+                this.min = botones.get(i).getNum();
+            }
+        }
+
+        return min;
     }
 }
