@@ -24,7 +24,7 @@ public class Tabla {
     private JPanel inicio1, inicio2, inicio3, juego;
     private JMenuBar menubar;
     private JMenu menu1;
-    private JMenuItem item1, item2, item3, item4;
+    private JMenuItem item1, item2, item3, item4;// UndoManager
     private Resolver partida;
 
     public Tabla() {
@@ -111,14 +111,14 @@ public class Tabla {
 
         item4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.removeAll();
+                frame.getContentPane().removeAll();
                 inicio1 = new JPanel();
                 FlowLayout linea = new FlowLayout();
                 inicio1.setLayout(linea);
 
                 frame.validate();
                 frame.repaint();
-                
+
                 inicio1.add(etfilas);
                 inicio1.add(numfilas);
                 inicio1.add(etcol);
@@ -137,20 +137,7 @@ public class Tabla {
 
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    final SwingWorker evento = new SwingWorker() {
-                        @Override
-                        protected Object doInBackground() throws Exception {
-                            ventanaJuego();
-                            return null;
-                        }
-                    };
-
-                    evento.execute();
-                    ;
-                } catch (Exception err) {
-                }
-                ;
+                ventanaJuego();
             }
         });
 

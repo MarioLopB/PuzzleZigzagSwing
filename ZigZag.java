@@ -1,6 +1,10 @@
+import java.awt.BorderLayout;
 import java.util.*;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class ZigZag {
     private int numrows, numcols = 0;
@@ -231,7 +235,17 @@ public class ZigZag {
             }
         }
 
-        JOptionPane.showMessageDialog(null, result.toString());
+        JFrame output = new JFrame("Ayuda");
+        output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        output.setSize(400, 400);
+
+        JPanel panel = new JPanel();
+        
+        JLabel label = new JLabel(result.toString());
+
+        panel.add(label);
+
+        output.getContentPane().add(BorderLayout.CENTER, panel);
     }
 
     /**
