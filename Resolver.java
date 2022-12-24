@@ -7,7 +7,8 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class Resolver {
-    private ArrayList<Boton> solucion = new ArrayList<>();
+    private ArrayList<Boton> solucion = new ArrayList<Boton>();
+    private ArrayList<Boton> rehacer = new ArrayList<Boton>();
     private ArrayList<Boton> botones;
     private ArrayList<Flecha> flechas;
     private int min, max;
@@ -41,8 +42,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
-                        searchFlecha(flechas, current.getFila()-1, current.getCol()-1).getFlecha().setText("\\");
-                    } else{
+                        searchFlecha(flechas, current.getFila() - 1, current.getCol() - 1).getFlecha().setText("\\");
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() - 2 == previous.getFila() && current.getCol() == previous.getCol()) {
@@ -50,7 +51,8 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(2);
                     solucion.add(current);
-                    searchFlecha(flechas, current.getFila()-1, current.getCol()).getFlecha().setText("|");;
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol()).getFlecha().setText("|");
+                    ;
                 } else if (current.getFila() - 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Diagonal Arriba Derecha
                     if (searchBoton(botones, current.getFila(), current.getCol() + 2).getVisited() != 1
@@ -58,8 +60,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
                         solucion.add(current);
-                        searchFlecha(flechas, current.getFila()-1, current.getCol()+1).getFlecha().setText("/");;
-                    } else{
+                        searchFlecha(flechas, current.getFila() - 1, current.getCol() + 1).getFlecha().setText("/");
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
@@ -67,13 +69,13 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(4);
                     solucion.add(current);
-                    searchFlecha(flechas, current.getFila(), current.getCol()-1).getFlecha().setText("-");;
+                    searchFlecha(flechas, current.getFila(), current.getCol() - 1).getFlecha().setText("-");
                 } else if (current.getFila() == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Derecha
                     current.getBoton().setEnabled(false);
                     current.setVisited(5);
                     solucion.add(current);
-                    searchFlecha(flechas, current.getFila(), current.getCol()+1).getFlecha().setText("-");;
+                    searchFlecha(flechas, current.getFila(), current.getCol() + 1).getFlecha().setText("-");
                 } else if (current.getFila() + 2 == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
                     // Diagonal Abajo Izquierda
                     if (searchBoton(botones, current.getFila(), current.getCol() - 2).getVisited() != 8
@@ -81,8 +83,8 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
                         solucion.add(current);
-                        searchFlecha(flechas, current.getFila()+1, current.getCol()-1).getFlecha().setText("/");;
-                    } else{
+                        searchFlecha(flechas, current.getFila() + 1, current.getCol() - 1).getFlecha().setText("/");
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else if (current.getFila() + 2 == previous.getFila() && current.getCol() == previous.getCol()) {
@@ -90,7 +92,7 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(7);
                     solucion.add(current);
-                    searchFlecha(flechas, current.getFila()+1, current.getCol()).getFlecha().setText("|");;
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol()).getFlecha().setText("|");
                 } else if (current.getFila() + 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Diagonal Abajo Derecha
                     if (searchBoton(botones, current.getFila(), current.getCol() + 2).getVisited() != 6
@@ -98,15 +100,15 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
                         solucion.add(current);
-                        searchFlecha(flechas, current.getFila()+1, current.getCol()+1).getFlecha().setText("\\");;
-                    } else{
+                        searchFlecha(flechas, current.getFila() + 1, current.getCol() + 1).getFlecha().setText("\\");
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Casilla demasiado lejena");
 
                 }
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Valor incorrecto");
             }
 
@@ -149,11 +151,92 @@ public class Resolver {
         return null;
     }
 
-    public void setBotones(ArrayList<Boton> botones){
+    public void setBotones(ArrayList<Boton> botones) {
         this.botones = botones;
     }
 
-    public void setFlechas(ArrayList<Flecha> flechas){
+    public void setFlechas(ArrayList<Flecha> flechas) {
         this.flechas = flechas;
+    }
+
+    public void removeLast() {
+        if (solucion.size() != 0) {
+            Boton current = solucion.get(solucion.size() - 1);
+            rehacer.add(current);
+            current.getBoton().setEnabled(true);
+
+            switch (current.getVisited()) {
+                case 1:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol() - 1).getFlecha().setText("");
+                    break;
+                case 2:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol()).getFlecha().setText("");
+                    break;
+                case 3:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol() + 1).getFlecha().setText("");
+                    break;
+                case 4:
+                    searchFlecha(flechas, current.getFila(), current.getCol() - 1).getFlecha().setText("");
+                    break;
+                case 5:
+                    searchFlecha(flechas, current.getFila(), current.getCol() + 1).getFlecha().setText("");
+                    break;
+                case 6:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol() - 1).getFlecha().setText("");
+                    break;
+                case 7:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol()).getFlecha().setText("");
+                    break;
+                case 8:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol() + 1).getFlecha().setText("");
+                    break;
+            }
+
+            current.setVisited(0);
+
+            solucion.remove(solucion.get(solucion.size() - 1));
+        } else{
+            JOptionPane.showMessageDialog(null, "No se puede desahacer.");
+        }
+    }
+
+    public void reHacer(){
+        if(solucion.size() != botones.size()){
+            Boton current = solucion.get(0);
+            current.getBoton().setEnabled(false);
+
+            switch (current.getVisited()) {
+                case 1:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol() - 1).getFlecha().setText("\\");
+                    break;
+                case 2:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol()).getFlecha().setText("|");
+                    break;
+                case 3:
+                    searchFlecha(flechas, current.getFila() - 1, current.getCol() + 1).getFlecha().setText("/");
+                    break;
+                case 4:
+                    searchFlecha(flechas, current.getFila(), current.getCol() - 1).getFlecha().setText("-");
+                    break;
+                case 5:
+                    searchFlecha(flechas, current.getFila(), current.getCol() + 1).getFlecha().setText("-");
+                    break;
+                case 6:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol() - 1).getFlecha().setText("/");
+                    break;
+                case 7:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol()).getFlecha().setText("|");
+                    break;
+                case 8:
+                    searchFlecha(flechas, current.getFila() + 1, current.getCol() + 1).getFlecha().setText("/");
+                    break;
+            }
+
+            solucion.add(current);
+
+            rehacer.remove(0);
+        } else{
+            JOptionPane.showMessageDialog(null, "No se puede reahacer.");
+        }
     }
 }

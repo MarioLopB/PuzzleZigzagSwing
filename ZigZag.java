@@ -12,10 +12,11 @@ public class ZigZag {
     public int min, max = 0;
     private ArrayList<Direccion> opciones, elegidos;
     private ArrayList<ArrayList<Direccion>> soluciones;
+    private JFrame output;
 
     /**
-     *Constructor de la clase ZigZag
-     *  
+     * Constructor de la clase ZigZag
+     * 
      * @param numrows
      * @param numcols
      */
@@ -67,7 +68,8 @@ public class ZigZag {
     }
 
     /**
-     * Crea una relacion con la anterior casilla en orden lexicográfico y teniendo en cuenta los cruzes.
+     * Crea una relacion con la anterior casilla en orden lexicográfico y teniendo
+     * en cuenta los cruzes.
      * 
      * @param current
      */
@@ -177,28 +179,28 @@ public class ZigZag {
 
                     switch (search(sol, n, m).visited) {
                         case 1:
-                            tabla[i-1][j - 1] = '\\';
+                            tabla[i - 1][j - 1] = '\\';
                             break;
                         case 2:
-                            tabla[i-1][j] = '|';
+                            tabla[i - 1][j] = '|';
                             break;
                         case 3:
-                            tabla[i-1][j+1] = '/';
+                            tabla[i - 1][j + 1] = '/';
                             break;
                         case 4:
-                            tabla[i][j-1] = '-';
+                            tabla[i][j - 1] = '-';
                             break;
                         case 5:
-                            tabla[i][j+1] = '-';
+                            tabla[i][j + 1] = '-';
                             break;
                         case 6:
-                            tabla[i+1][j-1] = '/';
+                            tabla[i + 1][j - 1] = '/';
                             break;
                         case 7:
-                            tabla[i+1][j] = '|';
+                            tabla[i + 1][j] = '|';
                             break;
                         case 8:
-                            tabla[i+1][j+1] = '\\';
+                            tabla[i + 1][j + 1] = '\\';
                             break;
                     }
 
@@ -209,8 +211,8 @@ public class ZigZag {
 
         StringBuilder output = new StringBuilder();
 
-        for(int i = 0; i < (numrows * 2) - 1; i++){
-            for (int j = 0; j < ((numcols * 2) - 1); j++){
+        for (int i = 0; i < (numrows * 2) - 1; i++) {
+            for (int j = 0; j < ((numcols * 2) - 1); j++) {
                 output.append(tabla[i][j]);
             }
             output.append("\n");
@@ -225,24 +227,30 @@ public class ZigZag {
     public void imprimeSoluciones() {
         StringBuilder result = new StringBuilder();
 
-        result.append(soluciones.size()+"\n");
+        int numsol = soluciones.size();
 
-        if(max!=min){
-            for (int i = 0; i < soluciones.size(); i++) {
-                result.append(imprimeSolucion(soluciones.get(i)));
-                if (i != soluciones.size() - 1) {
-                    result.append("\n\n");
+        if (numsol > 0) {
+            result.append("Soluciones disponibles: " + numsol + "\n");
+
+            if (max != min) {
+                for (int i = 0; i < soluciones.size(); i++) {
+                    result.append(imprimeSolucion(soluciones.get(i)));
+                    if (i != soluciones.size() - 1) {
+                        result.append("\n\n");
+                    }
                 }
             }
+        } else{
+            result.append("No tiene solución.");
         }
 
-        JFrame output = new JFrame("Ayuda");
-        output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        output = new JFrame("Ayuda");
         output.setSize(400, 400);
 
         JPanel panel = new JPanel();
-        
+
         JTextArea area = new JTextArea(result.toString());
+        area.setEditable(false);
 
         panel.add(area);
 
@@ -261,7 +269,6 @@ public class ZigZag {
         }
     }
 
-
     /**
      * Establece el número máximo de la tabla.
      */
@@ -278,15 +285,15 @@ public class ZigZag {
      * 
      * @return true si la entrada es correcta.
      */
-    public boolean isInputOk(){
-        if(numrows > 10){
+    public boolean isInputOk() {
+        if (numrows > 10) {
             return false;
-        } else if (numcols > 10){
+        } else if (numcols > 10) {
             return false;
         }
 
-        for(int i = 0; i < opciones.size(); i++){
-            if(opciones.get(i).num > 9 || opciones.get(i).num <= 0){
+        for (int i = 0; i < opciones.size(); i++) {
+            if (opciones.get(i).num > 9 || opciones.get(i).num <= 0) {
                 return false;
             }
         }
@@ -299,20 +306,20 @@ public class ZigZag {
      * @param list
      * @return true si el numero de columnas en las filas es el mismo.
      */
-    public boolean isNumColEqual(ArrayList<ArrayList<String>> list){
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).size() != numcols){
+    public boolean isNumColEqual(ArrayList<ArrayList<String>> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).size() != numcols) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
     /**
      * @return tamaño de la lista de opciones.
      */
-    public int getSizeOptions(){
+    public int getSizeOptions() {
         return opciones.size();
     }
 }

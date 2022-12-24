@@ -7,7 +7,12 @@ import java.io.IOException;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
+import javax.swing.text.Document;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 import javax.xml.validation.Validator;
 
 import java.awt.event.*;
@@ -24,15 +29,18 @@ public class Tabla {
     private JPanel inicio1, inicio2, inicio3, juego;
     private JMenuBar menubar;
     private JMenu menu1;
-    private JMenuItem item1, item2, item3, item4;// UndoManager
+    private JMenuItem fichero, ayuda, inicio, deshacer, rehacer;// UndoManager
     private Resolver partida;
+    private Ayuda asist;
+    protected UndoManager back;
 
     public Tabla() {
+        back = new UndoManager();
         initialize();
     }
 
     public void initialize() {
-        frame = new JFrame("Tabla");
+        frame = new JFrame("ZigZag");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 700);
 
@@ -42,22 +50,40 @@ public class Tabla {
         menu1 = new JMenu("Opciones");
         menubar.add(menu1);
 
-        item1 = new JMenuItem("Cargar fichero");
-        menu1.add(item1);
-        item2 = new JMenuItem("Deshacer");
-        menu1.add(item2);
-        item3 = new JMenuItem("Ayuda");
-        menu1.add(item3);
-        item4 = new JMenuItem("Inicio");
-        menu1.add(item4);
+        fichero = new JMenuItem("Cargar fichero");
+        menu1.add(fichero);
+        ayuda = new JMenuItem("Ayuda");
+        menu1.add(ayuda);
+        inicio = new JMenuItem("Inicio");
+        menu1.add(inicio);
+        deshacer = new JMenuItem("Deshacer");
+        menu1.add(deshacer);
+        rehacer = new JMenuItem("Rehacer");
+        menu1.add(rehacer);
 
-        item1.addActionListener(new ActionListener() {
+        fichero.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cargarFichero();
             }
         });
 
-        item3.addActionListener(new ActionListener() {
+        deshacer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(back.canUndo()){
+                    back.undo();
+                }
+
+                partida.removeLast();
+            }
+        });
+
+        rehacer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                partida.reHacer();
+            }
+        });
+
+        ayuda.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final SwingWorker worker = new SwingWorker() {
 
@@ -109,7 +135,7 @@ public class Tabla {
         inicio1.add(selec);
         inicio1.setVisible(true);
 
-        item4.addActionListener(new ActionListener() {
+        inicio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
                 inicio1 = new JPanel();
@@ -175,6 +201,13 @@ public class Tabla {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     JTextField t = new JTextField("");
+
+                    t.getDocument().addUndoableEditListener(new UndoableEditListener() {
+                        public void undoableEditHappened(UndoableEditEvent e){
+                            back.addEdit(e.getEdit());
+                        }
+                    });
+
                     casillas.add(t);
                     inicio2.add(t);
                 }
@@ -236,7 +269,7 @@ public class Tabla {
             frame.validate();
             frame.repaint();
 
-            Resolver intento = new Resolver();
+            partida = new Resolver();
 
             int fila = 0, col = 0;
 
@@ -244,7 +277,7 @@ public class Tabla {
             for (int i = 0; i < (n * 2) - 1; i++) {
                 for (int j = 0; j < (m * 2) - 1; j++) {
                     if (i % 2 == 0 && j % 2 == 0) {
-                        Boton newbutton = new Boton(new JButton(valores[fila][col]), i, j, intento);
+                        Boton newbutton = new Boton(new JButton(valores[fila][col]), i, j, partida);
                         botones.add(newbutton);
                         juego.add(newbutton.getBoton());
                         counter++;
@@ -261,10 +294,10 @@ public class Tabla {
                 }
             }
 
-            intento.setBotones(botones);
-            intento.setFlechas(flechas);
-            intento.setMax(Max());
-            intento.setMin(Min());
+            partida.setBotones(botones);
+            partida.setFlechas(flechas);
+            partida.setMax(Max());
+            partida.setMin(Min());
 
             frame.getContentPane().add(BorderLayout.CENTER, juego);
             frame.validate();
@@ -372,7 +405,7 @@ public class Tabla {
 
     public void Help() {
         if (casillas.size() != 0) {
-            Ayuda asist = new Ayuda(n, m, casillas);
+            asist = new Ayuda(n, m, casillas);
             asist.Help();
         } else {
             JOptionPane.showMessageDialog(null, "No hay datos");
