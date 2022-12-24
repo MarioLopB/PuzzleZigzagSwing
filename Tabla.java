@@ -13,6 +13,7 @@ import javax.xml.validation.Validator;
 import java.awt.event.*;
 import java.lang.annotation.IncompleteAnnotationException;
 import java.util.*;
+import java.util.concurrent.Flow;
 
 public class Tabla {
     public JFrame frame;
@@ -23,11 +24,10 @@ public class Tabla {
     private JPanel inicio1, inicio2, inicio3, juego;
     private JMenuBar menubar;
     private JMenu menu1;
-    private JMenuItem item1, item2, item3;
+    private JMenuItem item1, item2, item3, item4;
     private Resolver partida;
 
     public Tabla() {
-        casillas = new ArrayList<JTextField>();
         initialize();
     }
 
@@ -48,6 +48,8 @@ public class Tabla {
         menu1.add(item2);
         item3 = new JMenuItem("Ayuda");
         menu1.add(item3);
+        item4 = new JMenuItem("Inicio");
+        menu1.add(item4);
 
         item1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,15 +58,15 @@ public class Tabla {
         });
 
         item3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                final SwingWorker worker = new SwingWorker(){
+            public void actionPerformed(ActionEvent e) {
+                final SwingWorker worker = new SwingWorker() {
 
                     @Override
                     protected Object doInBackground() throws Exception {
                         Help();
                         return null;
                     }
-                    
+
                 };
 
                 worker.execute();
@@ -106,6 +108,30 @@ public class Tabla {
         inicio1.add(numcol);
         inicio1.add(selec);
         inicio1.setVisible(true);
+
+        item4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.removeAll();
+                inicio1 = new JPanel();
+                FlowLayout linea = new FlowLayout();
+                inicio1.setLayout(linea);
+
+                frame.validate();
+                frame.repaint();
+                
+                inicio1.add(etfilas);
+                inicio1.add(numfilas);
+                inicio1.add(etcol);
+                inicio1.add(numcol);
+                inicio1.add(selec);
+                inicio1.setVisible(true);
+
+                frame.getContentPane().add(BorderLayout.NORTH, inicio1);
+                frame.validate();
+                frame.repaint();
+
+            }
+        });
 
         juego = new JPanel();
 
@@ -149,6 +175,7 @@ public class Tabla {
         inicio2 = new JPanel();
         frame.repaint();
         frame.validate();
+        casillas = new ArrayList<JTextField>();
 
         setFilas(Integer.parseInt(numfilas.getText()));
         setColumns(Integer.parseInt(numcol.getText()));
@@ -260,6 +287,7 @@ public class Tabla {
     }
 
     public void cargarFichero() {
+        casillas = new ArrayList<JTextField>();
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setCurrentDirectory(new File("."));
@@ -355,13 +383,13 @@ public class Tabla {
         return min;
     }
 
-    public void Help(){
-        if(casillas.size() != 0){
+    public void Help() {
+        if (casillas.size() != 0) {
             Ayuda asist = new Ayuda(n, m, casillas);
             asist.Help();
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "No hay datos");
         }
-       
+
     }
 }
