@@ -7,20 +7,16 @@ public class Boton {
     private JButton boton;
     private int fila, col, visited;
     private Resolver intento;
-    private boolean fantasma;
 
-    public Boton(JButton boton, int fila, int col, Resolver intento, boolean fantasma){
+    public Boton(JButton boton, int fila, int col, Resolver intento){
         this.boton = boton;
         this.fila = fila;
         this.col = col;
         this.intento = intento;
-        this.fantasma = fantasma;
 
         boton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                if(fantasma){
-                    intento.resuelve(new Boton(boton, fila, col, intento, false));
-                }
+                    intento.resuelve(fila, col);
             }
         });
     }

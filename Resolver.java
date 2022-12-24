@@ -12,7 +12,9 @@ public class Resolver {
     private ArrayList<Flecha> flechas;
     private int min, max;
 
-    public void resuelve(Boton current) {
+    public void resuelve(int fila, int col) {
+        Boton current = searchBoton(botones, fila, col);
+
         if (solucion.size() == 0) {
             if (current.getFila() == 0 && current.getCol() == 0) {
                 current.getBoton().setEnabled(false);
@@ -39,7 +41,7 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
-                        searchFlecha(flechas, current.getFila()-1, current.getCol()-1).getFlecha().setText("\\");;
+                        searchFlecha(flechas, current.getFila()-1, current.getCol()-1).getFlecha().setText("\\");
                     } else{
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
