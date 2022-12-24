@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class ZigZag {
     private int numrows, numcols = 0;
@@ -241,11 +242,12 @@ public class ZigZag {
 
         JPanel panel = new JPanel();
         
-        JLabel label = new JLabel(result.toString());
+        JTextArea area = new JTextArea(result.toString());
 
-        panel.add(label);
+        panel.add(area);
 
         output.getContentPane().add(BorderLayout.CENTER, panel);
+        output.setVisible(true);
     }
 
     /**
