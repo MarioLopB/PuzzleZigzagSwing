@@ -201,8 +201,8 @@ public class Resolver {
     }
 
     public void reHacer(){
-        if(solucion.size() != botones.size()){
-            Boton current = solucion.get(0);
+        if(solucion.size() != botones.size() && rehacer.size() != 0){
+            Boton current = rehacer.get(rehacer.size()-1);
             current.getBoton().setEnabled(false);
 
             switch (current.getVisited()) {
@@ -234,7 +234,7 @@ public class Resolver {
 
             solucion.add(current);
 
-            rehacer.remove(0);
+            rehacer.remove(rehacer.get(rehacer.size()-1));
         } else{
             JOptionPane.showMessageDialog(null, "No se puede reahacer.");
         }

@@ -29,13 +29,11 @@ public class Tabla {
     private JPanel inicio1, inicio2, inicio3, juego;
     private JMenuBar menubar;
     private JMenu menu1;
-    private JMenuItem fichero, ayuda, inicio, deshacer, rehacer;// UndoManager
+    private JMenuItem fichero, ayuda, inicio, deshacer, rehacer;
     private Resolver partida;
     private Ayuda asist;
-    protected UndoManager back;
 
     public Tabla() {
-        back = new UndoManager();
         initialize();
     }
 
@@ -69,10 +67,6 @@ public class Tabla {
 
         deshacer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(back.canUndo()){
-                    back.undo();
-                }
-
                 partida.removeLast();
             }
         });
@@ -201,13 +195,6 @@ public class Tabla {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     JTextField t = new JTextField("");
-
-                    t.getDocument().addUndoableEditListener(new UndoableEditListener() {
-                        public void undoableEditHappened(UndoableEditEvent e){
-                            back.addEdit(e.getEdit());
-                        }
-                    });
-
                     casillas.add(t);
                     inicio2.add(t);
                 }
