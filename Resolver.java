@@ -115,7 +115,7 @@ public class Resolver {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Casilla demasiado lejena");
+                    JOptionPane.showMessageDialog(null, "Casilla demasiado lejana");
 
                 }
             } else {

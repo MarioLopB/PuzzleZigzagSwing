@@ -177,36 +177,40 @@ public class Tabla {
         frame.validate();
         casillas = new ArrayList<JTextField>();
 
-        setFilas(Integer.parseInt(numfilas.getText()));
-        setColumns(Integer.parseInt(numcol.getText()));
+        try {
+            setFilas(Integer.parseInt(numfilas.getText()));
+            setColumns(Integer.parseInt(numcol.getText()));
 
-        if (n <= 10 && n > 0 && m <= 10 && m > 0) {
+            if (n <= 10 && n > 0 && m <= 10 && m > 0) {
 
-            GridLayout datos = new GridLayout(n, m);
-            inicio2.setLayout(datos);
+                GridLayout datos = new GridLayout(n, m);
+                inicio2.setLayout(datos);
 
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    JTextField t = new JTextField("");
-                    casillas.add(t);
-                    inicio2.add(t);
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < m; j++) {
+                        JTextField t = new JTextField("");
+                        casillas.add(t);
+                        inicio2.add(t);
+                    }
                 }
+
+                frame.getContentPane().add(inicio2, BorderLayout.CENTER);
+
+                frame.repaint();
+                frame.validate();
+
+                inicio3.add(next);
+
+                frame.getContentPane().add(inicio3, BorderLayout.SOUTH);
+
+                frame.repaint();
+                frame.validate();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Entrada de filas o columnas incorrecta");
             }
-
-            frame.getContentPane().add(inicio2, BorderLayout.CENTER);
-
-            frame.repaint();
-            frame.validate();
-
-            inicio3.add(next);
-
-            frame.getContentPane().add(inicio3, BorderLayout.SOUTH);
-
-            frame.repaint();
-            frame.validate();
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Entrada de filas o columnas incorrecta");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Entrada no válida");
         }
     }
 
@@ -250,12 +254,16 @@ public class Tabla {
                         counter++;
                         ok = true;
                     } else {
-                        JOptionPane.showMessageDialog(null, "Números deben ser menores que 9 y mayores que 0.");
                         ok = false;
                         break;
                     }
                 }
             }
+
+            if (!ok) {
+                JOptionPane.showMessageDialog(null, "Números deben ser menores que 9 y mayores que 0.");
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Entrada incorrecta.");
             ok = false;
