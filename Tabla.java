@@ -27,7 +27,10 @@ public class Tabla {
     private ArrayList<JTextField> casillas;
     private ArrayList<Flecha> flechas;
     private JPanel inicio1, inicio2, inicio3, juego;
+    private JLabel etfilas, etcol;
+    private JTextField numfilas, numcol;
     private JMenuBar menubar;
+    private JButton selec, next;
     private JMenu menu1;
     private JMenuItem fichero, ayuda, inicio, deshacer, rehacer;
     private Resolver partida;
@@ -62,24 +65,28 @@ public class Tabla {
         rehacer = new JMenuItem("Rehacer");
         menu1.add(rehacer);
 
+        // Item para cargar ficheros
         fichero.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cargarFichero();
             }
         });
 
+        // Item para deshacer acción
         deshacer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 partida.removeLast();
             }
         });
 
+        // Item para rehacer action
         rehacer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 partida.reHacer();
             }
         });
 
+        // Boton de ayuda
         ayuda.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final SwingWorker worker = new SwingWorker() {
@@ -108,17 +115,17 @@ public class Tabla {
 
         frame.getContentPane().add(BorderLayout.NORTH, inicio1);
 
-        JLabel etfilas = new JLabel("FILAS");
-        JTextField numfilas = new JTextField();
+        etfilas = new JLabel("FILAS");
+        numfilas = new JTextField();
         numfilas.setColumns(2);
 
-        JLabel etcol = new JLabel("COLUMNAS");
-        JTextField numcol = new JTextField();
+        etcol = new JLabel("COLUMNAS");
+        numcol = new JTextField();
         numcol.setColumns(2);
 
-        JButton next = new JButton("Siguiente");
+        next = new JButton("Siguiente");
 
-        JButton selec = new JButton("Seleccionar");
+        selec = new JButton("Seleccionar");
         selec.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 crearIncio(numfilas, numcol, next);
@@ -132,27 +139,10 @@ public class Tabla {
         inicio1.add(selec);
         inicio1.setVisible(true);
 
+        // Vuelve al inicio
         inicio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                inicio1 = new JPanel();
-                FlowLayout linea = new FlowLayout();
-                inicio1.setLayout(linea);
-
-                frame.validate();
-                frame.repaint();
-
-                inicio1.add(etfilas);
-                inicio1.add(numfilas);
-                inicio1.add(etcol);
-                inicio1.add(numcol);
-                inicio1.add(selec);
-                inicio1.setVisible(true);
-
-                frame.getContentPane().add(BorderLayout.NORTH, inicio1);
-                frame.validate();
-                frame.repaint();
-
+                volverInicio();
             }
         });
 
@@ -220,6 +210,27 @@ public class Tabla {
         }
     }
 
+    public void volverInicio() {
+        frame.getContentPane().removeAll();
+        inicio1 = new JPanel();
+        FlowLayout linea = new FlowLayout();
+        inicio1.setLayout(linea);
+
+        frame.validate();
+        frame.repaint();
+
+        inicio1.add(etfilas);
+        inicio1.add(numfilas);
+        inicio1.add(etcol);
+        inicio1.add(numcol);
+        inicio1.add(selec);
+        inicio1.setVisible(true);
+
+        frame.getContentPane().add(BorderLayout.NORTH, inicio1);
+        frame.validate();
+        frame.repaint();
+    }
+
     public void ventanaJuego() {
         botones = new ArrayList<Boton>();
         flechas = new ArrayList<Flecha>();
@@ -269,7 +280,7 @@ public class Tabla {
                     if (i % 2 == 0 && j % 2 == 0) {
                         Boton newbutton = new Boton(new JButton(valores[fila][col]), i, j, partida);
 
-                        if(i == (n * 2) - 2 && j == (m * 2) - 2){
+                        if (i == (n * 2) - 2 && j == (m * 2) - 2) {
                             newbutton.setFinal();
                         }
 
@@ -300,7 +311,6 @@ public class Tabla {
             frame.setVisible(true);
         }
     }
-
 
     public void cargarFichero() {
         casillas = new ArrayList<JTextField>();
@@ -366,7 +376,7 @@ public class Tabla {
 
             } catch (NumberFormatException | FileNotFoundException e1) {
                 // TODO Auto-generated catch block
-                JOptionPane.showMessageDialog(null, "No ha fichero");
+                JOptionPane.showMessageDialog(null, "Fichero incompatible");
             }
         }
     }

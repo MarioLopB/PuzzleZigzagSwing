@@ -246,8 +246,9 @@ public class ZigZag {
                             result.append("\n\n");
                         }
                     }
+                } else {
+                    result.append("No tiene solución.");
                 }
-                result.append("No tiene solución.");
             } else {
                 result.append("No tiene solución.");
             }
