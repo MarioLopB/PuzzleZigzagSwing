@@ -15,6 +15,7 @@ public class Resolver {
 
     public void resuelve(int fila, int col) {
         Boton current = searchBoton(botones, fila, col);
+        boolean isok = false;
 
         if (solucion.size() == 0) {
             if (current.getFila() == 0 && current.getCol() == 0) {
@@ -42,6 +43,7 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(1);
                         solucion.add(current);
+                        isok = true;
                         searchFlecha(flechas, current.getFila() - 1, current.getCol() - 1).getFlecha().setText("\\");
                     } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
@@ -51,6 +53,7 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(2);
                     solucion.add(current);
+                    isok = true;
                     searchFlecha(flechas, current.getFila() - 1, current.getCol()).getFlecha().setText("|");
                     ;
                 } else if (current.getFila() - 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
@@ -60,6 +63,7 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(3);
                         solucion.add(current);
+                        isok = true;
                         searchFlecha(flechas, current.getFila() - 1, current.getCol() + 1).getFlecha().setText("/");
                     } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
@@ -69,12 +73,14 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(4);
                     solucion.add(current);
+                    isok = true;
                     searchFlecha(flechas, current.getFila(), current.getCol() - 1).getFlecha().setText("-");
                 } else if (current.getFila() == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Derecha
                     current.getBoton().setEnabled(false);
                     current.setVisited(5);
                     solucion.add(current);
+                    isok = true;
                     searchFlecha(flechas, current.getFila(), current.getCol() + 1).getFlecha().setText("-");
                 } else if (current.getFila() + 2 == previous.getFila() && current.getCol() - 2 == previous.getCol()) {
                     // Diagonal Abajo Izquierda
@@ -83,6 +89,7 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(6);
                         solucion.add(current);
+                        isok = true;
                         searchFlecha(flechas, current.getFila() + 1, current.getCol() - 1).getFlecha().setText("/");
                     } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
@@ -92,6 +99,7 @@ public class Resolver {
                     current.getBoton().setEnabled(false);
                     current.setVisited(7);
                     solucion.add(current);
+                    isok = true;
                     searchFlecha(flechas, current.getFila() + 1, current.getCol()).getFlecha().setText("|");
                 } else if (current.getFila() + 2 == previous.getFila() && current.getCol() + 2 == previous.getCol()) {
                     // Diagonal Abajo Derecha
@@ -100,6 +108,7 @@ public class Resolver {
                         current.getBoton().setEnabled(false);
                         current.setVisited(8);
                         solucion.add(current);
+                        isok = true;
                         searchFlecha(flechas, current.getFila() + 1, current.getCol() + 1).getFlecha().setText("\\");
                     } else {
                         JOptionPane.showMessageDialog(null, "Error de cruce");
@@ -110,6 +119,10 @@ public class Resolver {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Valor incorrecto");
+            }
+
+            if(current.isFinal() && isok){
+                JOptionPane.showMessageDialog(null, "Has ganado.");
             }
 
         }
@@ -195,14 +208,14 @@ public class Resolver {
             current.setVisited(0);
 
             solucion.remove(solucion.get(solucion.size() - 1));
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se puede desahacer.");
         }
     }
 
-    public void reHacer(){
-        if(solucion.size() != botones.size() && rehacer.size() != 0){
-            Boton current = rehacer.get(rehacer.size()-1);
+    public void reHacer() {
+        if (solucion.size() != botones.size() && rehacer.size() != 0) {
+            Boton current = rehacer.get(rehacer.size() - 1);
             current.getBoton().setEnabled(false);
 
             switch (current.getVisited()) {
@@ -234,8 +247,8 @@ public class Resolver {
 
             solucion.add(current);
 
-            rehacer.remove(rehacer.get(rehacer.size()-1));
-        } else{
+            rehacer.remove(rehacer.get(rehacer.size() - 1));
+        } else {
             JOptionPane.showMessageDialog(null, "No se puede reahacer.");
         }
     }

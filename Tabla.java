@@ -37,6 +37,9 @@ public class Tabla {
         initialize();
     }
 
+    /**
+     * Inicia la aplicación
+     */
     public void initialize() {
         frame = new JFrame("ZigZag");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -265,6 +268,11 @@ public class Tabla {
                 for (int j = 0; j < (m * 2) - 1; j++) {
                     if (i % 2 == 0 && j % 2 == 0) {
                         Boton newbutton = new Boton(new JButton(valores[fila][col]), i, j, partida);
+
+                        if(i == (n * 2) - 2 && j == (m * 2) - 2){
+                            newbutton.setFinal();
+                        }
+
                         botones.add(newbutton);
                         juego.add(newbutton.getBoton());
                         counter++;
@@ -292,6 +300,7 @@ public class Tabla {
             frame.setVisible(true);
         }
     }
+
 
     public void cargarFichero() {
         casillas = new ArrayList<JTextField>();

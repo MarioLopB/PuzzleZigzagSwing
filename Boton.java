@@ -9,6 +9,7 @@ public class Boton {
     private JButton boton;
     private int fila, col, visited;
     private Resolver intento;
+    private boolean last = false;
 
     public Boton(JButton boton, int fila, int col, Resolver intento){
         this.boton = boton;
@@ -45,6 +46,14 @@ public class Boton {
 
     public void setVisited(int visited){
         this.visited = visited;
+    }
+
+    public void setFinal(){
+        this.last = true;
+    }
+
+    public boolean isFinal(){
+        return this.last;
     }
     
 }
