@@ -227,21 +227,30 @@ public class ZigZag {
     public void imprimeSoluciones() {
         StringBuilder result = new StringBuilder();
 
-        int numsol = soluciones.size();
+        int numsol;
 
-        if (numsol > 0) {
+        if (max == min && opciones.size() == 1) {
+            numsol = 1;
             result.append("Soluciones disponibles: " + numsol + "\n");
+            result.append(max);
+        } else {
+            numsol = soluciones.size();
 
-            if (max != min) {
-                for (int i = 0; i < soluciones.size(); i++) {
-                    result.append(imprimeSolucion(soluciones.get(i)));
-                    if (i != soluciones.size() - 1) {
-                        result.append("\n\n");
+            if (numsol > 0) {
+                result.append("Soluciones disponibles: " + numsol + "\n");
+
+                if (max != min) {
+                    for (int i = 0; i < soluciones.size(); i++) {
+                        result.append(imprimeSolucion(soluciones.get(i)));
+                        if (i != soluciones.size() - 1) {
+                            result.append("\n\n");
+                        }
                     }
                 }
+                result.append("No tiene solución.");
+            } else {
+                result.append("No tiene solución.");
             }
-        } else{
-            result.append("No tiene solución.");
         }
 
         output = new JFrame("Ayuda");

@@ -21,6 +21,7 @@ public class Resolver {
             if (current.getFila() == 0 && current.getCol() == 0) {
                 current.getBoton().setEnabled(false);
                 solucion.add(current);
+                isok = true;
             } else {
                 JOptionPane.showMessageDialog(null, "Puzzle debe empezar arriba izquierda");
             }
@@ -121,10 +122,10 @@ public class Resolver {
                 JOptionPane.showMessageDialog(null, "Valor incorrecto");
             }
 
-            if(current.isFinal() && isok){
-                JOptionPane.showMessageDialog(null, "Has ganado.");
-            }
+        }
 
+        if(current.isFinal() && isok && solucion.size() == botones.size()){
+            JOptionPane.showMessageDialog(null, "Has ganado.");
         }
     }
 

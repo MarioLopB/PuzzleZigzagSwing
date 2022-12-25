@@ -73,7 +73,7 @@ public class Ayuda {
 
                         partida.imprimeSoluciones();
                     } else {
-                        System.out.println("1\n" + partida.max);
+                        partida.imprimeSoluciones();
                     }
 
                 } else {
