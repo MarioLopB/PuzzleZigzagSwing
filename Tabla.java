@@ -18,6 +18,7 @@ import javax.xml.validation.Validator;
 import java.awt.event.*;
 import java.lang.annotation.IncompleteAnnotationException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Flow;
 
 public class Tabla {
@@ -32,9 +33,11 @@ public class Tabla {
     private JMenuBar menubar;
     private JButton selec, next;
     private JMenu menu1;
+    private UndoManager manager;
     private JMenuItem fichero, ayuda, inicio, deshacer, rehacer;
     private Resolver partida;
     private Ayuda asist;
+    public boolean isInicio = false;;
 
     public Tabla() {
         initialize();
@@ -75,14 +78,30 @@ public class Tabla {
         // Item para deshacer acción
         deshacer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                partida.removeLast();
+                try{
+                    if(isInicio){
+                        manager.undo();
+                    } else{
+                        partida.removeLast();
+                    }
+                } catch(Exception d){
+                    JOptionPane.showMessageDialog(null, "No se puede deshacer.");
+                }
             }
         });
 
         // Item para rehacer action
         rehacer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                partida.reHacer();
+                try{
+                    if(isInicio){
+                        manager.redo();
+                    } else{
+                        partida.reHacer();
+                    }
+                } catch(Exception d){
+                    JOptionPane.showMessageDialog(null, "No se puede rehacer.");
+                }
             }
         });
 
@@ -169,6 +188,8 @@ public class Tabla {
     }
 
     public void crearIncio(JTextField numfilas, JTextField numcol, JButton next) {
+        manager = new UndoManager();
+
         frame.getContentPane().remove(inicio2);
         frame.getContentPane().remove(inicio3);
         inicio3 = new JPanel(new FlowLayout());
@@ -190,9 +211,18 @@ public class Tabla {
                     for (int j = 0; j < m; j++) {
                         JTextField t = new JTextField("");
                         casillas.add(t);
+                        t.getDocument().addUndoableEditListener(new UndoableEditListener() {
+                            @Override
+                            public void undoableEditHappened(UndoableEditEvent e) {
+                                manager.addEdit(e.getEdit()); 
+                            }
+                            
+                        });
                         inicio2.add(t);
                     }
                 }
+
+                isInicio = true;
 
                 frame.getContentPane().add(inicio2, BorderLayout.CENTER);
 
@@ -216,6 +246,7 @@ public class Tabla {
 
     public void volverInicio() {
         frame.getContentPane().removeAll();
+        isInicio = false;
         inicio1 = new JPanel();
         FlowLayout linea = new FlowLayout();
         inicio1.setLayout(linea);
@@ -253,8 +284,10 @@ public class Tabla {
                         valores[i][j] = casillas.get(counter).getText();
                         counter++;
                         ok = true;
+                        isInicio = false;
                     } else {
                         ok = false;
+                        isInicio = true;
                         break;
                     }
                 }
