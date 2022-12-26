@@ -206,8 +206,6 @@ public class Resolver {
                     break;
             }
 
-            current.setVisited(0);
-
             solucion.remove(solucion.get(solucion.size() - 1));
         } else {
             JOptionPane.showMessageDialog(null, "No se puede desahacer.");
