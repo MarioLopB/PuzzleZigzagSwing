@@ -175,10 +175,6 @@ public class Tabla {
 
     }
 
-    public int radomNum() {
-        return (int) (Math.random() * 9 + 1);
-    }
-
     public void setFilas(int filas) {
         this.n = filas;
     }
