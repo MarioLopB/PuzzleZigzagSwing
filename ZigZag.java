@@ -264,7 +264,7 @@ public class ZigZag {
         JPanel panel = new JPanel();
 
         JTextArea area = new JTextArea(result.toString());
-        area.setEditable(true);
+        area.setEditable(false);
 
         panel.add(area);
 

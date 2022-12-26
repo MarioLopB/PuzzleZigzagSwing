@@ -13,7 +13,15 @@ public class Resolver {
     private ArrayList<Flecha> flechas;
     private int min, max;
 
+    /**
+     * Verefica que el botón pulsado es correcto.
+     * 
+     * @param fila
+     * @param col
+     */
     public void resuelve(int fila, int col) {
+        rehacer.clear();
+
         Boton current = searchBoton(botones, fila, col);
         boolean isok = false;
 
@@ -129,16 +137,26 @@ public class Resolver {
         }
     }
 
+    /**
+     * Establece el mínimo
+     * 
+     * @param min
+     */
     public void setMin(int min) {
         this.min = min;
     }
 
+    /**
+     * Establece el máximo
+     * 
+     * @param max
+     */
     public void setMax(int max) {
         this.max = max;
     }
 
     /**
-     * Busca una casilla dentro de la lista indicada en función de sus coordenadas.
+     * Busca un boton dentro de la lista indicada en función de sus coordenadas.
      * 
      * @param list
      * @param fila
@@ -155,6 +173,14 @@ public class Resolver {
         return null;
     }
 
+    /**
+     * Busca una flecha dentro de la lista indicada en función de sus coordenadas.
+     * 
+     * @param list
+     * @param fila
+     * @param col
+     * @return
+     */
     public Flecha searchFlecha(ArrayList<Flecha> list, int fila, int col) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getFila() == fila && list.get(i).getCol() == col) {
@@ -165,14 +191,27 @@ public class Resolver {
         return null;
     }
 
+    /**
+     * Establece un boton
+     * 
+     * @param botones
+     */
     public void setBotones(ArrayList<Boton> botones) {
         this.botones = botones;
     }
 
+    /**
+     * Establece una flecha
+     * 
+     * @param flechas
+     */
     public void setFlechas(ArrayList<Flecha> flechas) {
         this.flechas = flechas;
     }
 
+    /**
+     * Resetea el ultimo boton pulsado.
+     */
     public void removeLast() {
         if (solucion.size() != 0) {
             Boton current = solucion.get(solucion.size() - 1);
@@ -206,12 +245,17 @@ public class Resolver {
                     break;
             }
 
+            searchBoton(botones, current.getFila(), current.getCol()).setVisited(0);
+
             solucion.remove(solucion.get(solucion.size() - 1));
         } else {
             JOptionPane.showMessageDialog(null, "No se puede desahacer.");
         }
     }
 
+    /**
+     * Reactiva el último botón que se haya desactivado.
+     */
     public void reHacer() {
         if (solucion.size() != botones.size() && rehacer.size() != 0) {
             Boton current = rehacer.get(rehacer.size() - 1);

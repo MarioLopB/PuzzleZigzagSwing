@@ -175,14 +175,31 @@ public class Tabla {
 
     }
 
+    /**
+     * Establece número de filas
+     * 
+     * @param filas
+     */
     public void setFilas(int filas) {
         this.n = filas;
     }
 
+    /**
+     * Establece número de columnas
+     * 
+     * @param col
+     */
     public void setColumns(int col) {
         this.m = col;
     }
 
+    /**
+     * Crea la entrada de datos del puzzle con texfields
+     * 
+     * @param numfilas
+     * @param numcol
+     * @param next
+     */
     public void crearIncio(JTextField numfilas, JTextField numcol, JButton next) {
         manager = new UndoManager();
 
@@ -240,6 +257,9 @@ public class Tabla {
         }
     }
 
+    /**
+     * Genera el menu de entrada de filas y columnas del inicio.
+     */
     public void volverInicio() {
         frame.getContentPane().removeAll();
         isInicio = false;
@@ -262,6 +282,9 @@ public class Tabla {
         frame.repaint();
     }
 
+    /**
+     * Crea los botones del juego.
+     */
     public void ventanaJuego() {
         botones = new ArrayList<Boton>();
         flechas = new ArrayList<Flecha>();
@@ -349,6 +372,9 @@ public class Tabla {
         }
     }
 
+    /**
+     * Carga el tablero e inicia el juego.
+     */
     public void cargarFichero() {
         casillas = new ArrayList<JTextField>();
         JFileChooser fileChooser = new JFileChooser();
@@ -446,6 +472,9 @@ public class Tabla {
         return min;
     }
 
+    /**
+     * Llama a las clases de ayuda y genera las soluciones posibles.
+     */
     public void Help() {
         if (casillas.size() != 0) {
             asist = new Ayuda(n, m, casillas);
