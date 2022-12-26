@@ -213,7 +213,11 @@ public class ZigZag {
 
         for (int i = 0; i < (numrows * 2) - 1; i++) {
             for (int j = 0; j < ((numcols * 2) - 1); j++) {
-                output.append(tabla[i][j]);
+                if (i % 2 != 0 && j % 2 == 0 && tabla[i][j]==' ') {
+                        output.append("  ");
+                } else{
+                    output.append(tabla[i][j]);
+                }
             }
             output.append("\n");
         }
@@ -260,7 +264,7 @@ public class ZigZag {
         JPanel panel = new JPanel();
 
         JTextArea area = new JTextArea(result.toString());
-        area.setEditable(false);
+        area.setEditable(true);
 
         panel.add(area);
 
